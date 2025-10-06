@@ -23,15 +23,15 @@ file    <- paste0("comparison_validation_",format(Sys.time(), "%Y%H%M%S"),".pdf"
 ###############################################################################
 
 x <- NULL; i <- 1
-for(outputdir in outputdirs) {
-  config <- file.path(outputdir,"config.yml")
+for(anOutputdir in outputdir) {
+  config <- file.path(anOutputdir,"config.yml")
   if(file.exists(config)) {
     cfg <- gms::loadConfig(config)
     title <- cfg$title
   } else {
     title <- paste0("run",i)
   }
-  gdx <- paste0(outputdir_x, "/fulldata.gdx")
+  gdx <- paste0(anOutputdir, "/fulldata.gdx")
   if(!is.null(x)) {
     scenarios <- getNames(x,dim=2)
     if(title %in% scenarios) {

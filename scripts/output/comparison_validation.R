@@ -15,32 +15,33 @@ library(magpie4)
 library(gms)
 
 ############################# BASIC CONFIGURATION #############################
-if(!exists("source_include")) {
-  outputdir    <-"."
+if (!exists("source_include")) {
+  outputdir <- "."
 }
 hist    <- "input/validation.mif"
-file    <- paste0("comparison_validation_",format(Sys.time(), "%Y%H%M%S"),".pdf")
+file    <- paste0("comparison_validation_", format(Sys.time(), "%Y%H%M%S"), ".pdf")
 ###############################################################################
 
-x <- NULL; i <- 1
-for(anOutputdir in outputdir) {
-  config <- file.path(anOutputdir,"config.yml")
-  if(file.exists(config)) {
+x <- NULL
+i <- 1
+for (anOutputdir in outputdir) {
+  config <- file.path(anOutputdir, "config.yml")
+  if (file.exists(config)) {
     cfg <- gms::loadConfig(config)
     title <- cfg$title
   } else {
-    title <- paste0("run",i)
+    title <- paste0("run", i)
   }
   gdx <- paste0(anOutputdir, "/fulldata.gdx")
-  if(!is.null(x)) {
-    scenarios <- getNames(x,dim=2)
-    if(title %in% scenarios) {
-      title <- tail(make.unique(c(scenarios,title),sep=""),n=1)
+  if (!is.null(x)) {
+    scenarios <- getNames(x, dim = 2)
+    if (title %in% scenarios) {
+      title <- tail(make.unique(c(scenarios, title), sep = ""), n = 1)
     }
   }
-  tmp <- getReport(gdx, scenario=sub(".","_",title,fixed = TRUE))
-  x <- mbind(x,tmp)
-  i <- i+1
+  tmp <- getReport(gdx, scenario = sub(".", "_", title, fixed = TRUE))
+  x <- mbind(x, tmp)
+  i <- i + 1
 }
 
-validationpdf(x=x, hist=hist, file = file, style="comparison")
+validationpdf(x = x, hist = hist, file = file, style = "comparison")
